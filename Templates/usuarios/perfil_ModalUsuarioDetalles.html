@@ -1,0 +1,79 @@
+{% load staticfiles %}
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title" style="color: #fff; font-weight: 350; ">Detalles del Usuario</h2>
+			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="container-fluid">
+			<div class="container-fluid">
+				<div class="row justify-content-around" id="" style="margin-top: 10px;">
+					<div class="col text-center centrar-imagen-usuario">
+						{% if object.imagen %}
+							<img id="myImg" src="{{ object.imagen.url }}" alt="{{ object.nombres }} {{ object.apellidos }}">
+						{% else %}
+							<img id="myImg" src="{% static 'personal/imagen/sin_imagen.png' %}" alt="No existe">
+						{% endif %}
+					</div>
+					<div class="col text-center">
+			            <div class="text-center titulo-div-modal">
+			                <h6>Datos Personales <button id="bloquear_button_agregar" class="btn btn-info btn-sm" type="button" onclick="abrir_modal_editar('{% url 'templates_usuario:editar_usuario' object.pk %}');" style="border-radius: 0px;"><i class="fas fa-edit"></i></button></h6>
+			            </div>
+						<p class="text-justify parrafo-div-modal">Nombres: <span class="parrafo-span-div-modal">{{ object.nombres|title }}</span> </p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Apellidos: <span class="parrafo-span-div-modal">{{ object.apellidos|title }}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Email: <span class="parrafo-span-div-modal">{{ object.email}}</span></p>
+						<div class="dropdown-divider"></div>
+						{% if object.is_superuser %}
+							<p class="text-justify parrafo-div-modal">Tipo de Usuario: <span class="parrafo-span-div-modal">Super Usuario</span></p>
+							<div class="dropdown-divider"></div>
+						{% elif object.is_staff %}
+							<p class="text-justify parrafo-div-modal">Tipo de Usuario: <span class="parrafo-span-div-modal">Staff</span></p>
+							<div class="dropdown-divider"></div>
+						{% else %}
+							<p class="text-justify parrafo-div-modal">Tipo de Usuario: <span class="parrafo-span-div-modal">Cliente</span></p>
+							<div class="dropdown-divider"></div>
+						{% endif %}
+						<div class="text-center titulo-div-modal" style="margin: 5% 0 -1%;">
+			                <h6>Información Extra</h6>
+			            </div>
+						<p class="text-justify parrafo-div-modal">Registrado: <span class="parrafo-span-div-modal">El {{ object.created }}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Ultima modificación: <span class="parrafo-span-div-modal">{{ object.modified }}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal" style="margin: 5% 0 1%;">Ultima sesión: <span class="parrafo-span-div-modal">{{ object.last_login }}</span></p>
+					</div>
+				</div>
+				<div class="dropdown-divider"></div>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<div id="popUp" class="modal1">
+  <span class="close1">&times;</span>
+  <img class="modal-content1" id="img01">
+  <div id="caption1"></div>
+</div>
+
+<script type="text/javascript">
+	var modal = document.getElementById('popUp');
+
+	var img = document.getElementById('myImg');
+	var modalImg = document.getElementById("img01");
+	var captionText = document.getElementById("caption1");
+	img.onclick = function(){
+	    modal.style.display = "block";
+	    modalImg.src = this.src;
+	    captionText.innerHTML = this.alt;
+	}
+
+	var span = document.getElementsByClassName("close1")[0];
+
+	span.onclick = function() { 
+	  modal.style.display = "none";
+	}
+</script>

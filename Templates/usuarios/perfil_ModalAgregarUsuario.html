@@ -1,0 +1,72 @@
+<!-- para cerrar un modal pude ser con funciones creadas por nosostros mismos 
+por ejemplo: 
+<button class="btn btn-danger" type="button" onclick="cerrar_modal_agregar();">Cancelar</button> 
+
+o puede ser con data-dismiss
+por ejemplo:
+<button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button> -->
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title">Agregar Usuario:</h2>
+			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<!-- id="form_agregar es llamado en main.js dentro de la funcion registrar" -->
+		<form id="form_agregar" action="{% url 'templates_usuario:registrar_usuario' %}" class="form-contact contact_form" method="POST">
+			{% csrf_token %}
+			<div class="modal-body">
+				<!-- div para mostrar errores 
+				se llama el id="erroresAgregar desde la funcion mostrarErroresAgregar() que esta en main.js" -->
+				<div id="erroresAgregar">	
+				</div>
+				<!-- fin mostrar errores -->
+				<div class="row">
+	                <div class="col-sm-6">
+	                    <div class="form-group">
+	                    	<h1 class="resaltar-input">{{ form.nombres.label}} {{form.nombres}}</h1> 
+	                    	
+	                    </div>
+	                </div>
+	                <div class="col-sm-6">
+	                    <div class="form-group">
+	                    	<h1 class="resaltar-input">{{ form.apellidos.label}} {{form.apellidos}}</h1>   
+	                    </div>
+	                </div>
+	                <div class="col-12">
+	                    <div class="form-group">
+	                    	 <h1 class="resaltar-input">{{ form.email.label}} {{form.email}}</h1>
+	                    	 
+	                    </div>
+	                </div>
+	                <div class="col-12">
+	                    <div class="form-group">
+	                    	 <h1 class="resaltar-input">{{ form.password1.label}}: {{form.password1}}</h1>
+	                    	 
+	                    </div>
+	                </div>
+	                <div class="col-12">
+	                    <div class="form-group">
+	                    	 <h1 class="resaltar-input">{{ form.password2.label}}: {{form.password2}}</h1>
+	                    	 
+	                    </div>
+	                </div>
+	                <div class="col-12">
+                        <div class="form-group">
+                        	<h1 class="resaltar-input">{{ form.imagen.label }} {{form.imagen}}</h1>
+
+                        </div>
+                    </div>
+				</div>
+			</div>
+		
+			 <div class="mi-footer-modal">
+				<!-- mediante el onclick llamamos a la funcion registrarUsuario()
+				que esta en el templates.js -->
+				<button id="bloquear_button_agregar" class="btn btn-info" type="button" onclick="registrarUsuario();">Registrar</button>
+				<button class="btn btn-danger" type="button" onclick="cerrar_modal_agregar();">Cancelar</button>
+			</div>
+		</form>
+	</div>
+</div>

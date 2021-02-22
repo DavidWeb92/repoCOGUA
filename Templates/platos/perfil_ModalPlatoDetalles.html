@@ -1,0 +1,43 @@
+{% load bootstrap4 %}
+{% load staticfiles %}
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title" style="color: #fff; font-weight: 350; ">Detalles del Plato Típico</h2>
+			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="container-fluid">
+			<div class="container-fluid">
+				<div class="row justify-content-around" id="" style="margin-top: 10px;">
+					<div class="col text-center">
+						{% if object.imagen %}
+							<img src="{{ object.imagen.url }}" class="img-fluid" width="500" height="500" alt="Responsive image">
+						{% else %}
+							<img id="myImg" src="{% static 'personal/imagen/sin_imagen.png' %}" class="img-fluid mx-auto d-block" width="500" height="500" alt="No existe">
+						{% endif %}
+					</div>
+					<div class="col text-center">
+			            <div class="text-center titulo-div-modal">
+			                <h6>Información <button id="bloquear_button_agregar" class="btn btn-info btn-sm" type="button" onclick="abrir_modal_editar('{% url 'templates_plato:editar_plato' object.pk %}');" style="border-radius: 0px;"><i class="fas fa-edit"></i></button></h6>
+			            </div>
+						<p class="text-justify parrafo-div-modal" style="margin:-0.5% 0;">Nombre: <span class="parrafo-span-div-modal">{{ object.nombre|title }}</span> </p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Precio: <span class="parrafo-span-div-modal">${{ object.precio }}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Publicado: <span class="parrafo-span-div-modal">El {{ object.created }}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Ultima modificación: <span class="parrafo-span-div-modal">El {{ object.modified }}</span></p>
+					</div>
+				</div>
+				<div class="row justify-content-around" id="" style="margin-top: 10px;">
+					<div class="col text-center">
+				      	<p class="text-justify">Descripción: <span class="parrafo-span-div-modal">{{ object.descripcion}}</span></p>
+					</div>
+				</div>
+				<div class="dropdown-divider"></div>
+			</div>	
+		</div>
+	</div>
+</div>

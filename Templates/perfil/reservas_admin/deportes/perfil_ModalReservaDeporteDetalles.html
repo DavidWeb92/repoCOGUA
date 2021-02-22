@@ -1,0 +1,84 @@
+{% load bootstrap4 %}
+{% load staticfiles %}
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title" style="color: #fff; font-weight: 350;">Detalles de la reserva</h2>
+			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="row justify-content-center">
+            <div class="text-center titulo-div-modal">
+                <h6>Datos de la Reserva</h6>
+            </div>
+    	</div>
+		<div class="container-fluid">
+			<div class="row justify-content-around" id="" >
+				<div class="col text-center">
+					<p class="parrafo-div-modal" style="margin:-0.5% 0;">Inicio de la reserva: <span class="parrafo-span-div-modal"> El dia {{ object.fecha_inicial|date:"l" }} {{ object.fecha_inicial|date:"d"}} de {{object.fecha_inicial|date:"F"}} del {{object.fecha_inicial|date:"Y"}}</span></p>
+
+					<p class="parrafo-div-modal">Fin de la reserva: <span class="parrafo-span-div-modal">El dia {{ object.fecha_final|date:"l" }} {{ object.fecha_final|date:"d"}} de {{object.fecha_final|date:"F"}} del {{object.fecha_final|date:"Y"}}</span></p>
+
+					<p class="parrafo-div-modal">Reservado: <span class="parrafo-span-div-modal">El dia {{ object.created|date:"l" }} {{ object.created|date:"d"}} de {{object.created|date:"F"}} del {{object.created|date:"Y"}} a las {{ object.created|date:"P" }}</span></p>
+				</div>
+				
+			</div>
+		</div>
+
+		<div class="dropdown-divider"></div>
+		<div class="container-fluid">
+			<div class="container-fluid">
+				<div class="row justify-content-center">
+		            <div class="text-center titulo-div-modal">
+		                <h6 class="mb-2">Datos del Deporte</h6>
+		            </div>
+	        	</div>
+				<div class="row justify-content-around" id="" style="margin-top: 10px;">
+					<div class="col text-center">
+						{% if object.deporte.imagen %}
+							<img src="{{ object.deporte.imagen.url }}" class="img-fluid" width="200" height="200" alt="Responsive image">
+						{% else %}
+							<img id="myImg" src="{% static 'personal/imagen/sin_imagen.png' %}" class="img-fluid mx-auto d-block" width="200" height="200" alt="No existe">
+						{% endif %}
+					</div>
+					<div class="col text-center">
+						<p class="text-justify parrafo-div-modal" style="margin:-0.5% 0;">Nombre: <span class="parrafo-span-div-modal">{{ object.deporte.nombre|title }}</span> </p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Precio: <span class="parrafo-span-div-modal">${{ object.deporte.precio }}</span></p>
+				      	<p class="text-justify responsive_text parrafo-div-modal">Descripción: <span class="parrafo-span-div-modal">{{ object.deporte.descripcion}}</span></p>
+				
+					</div>
+
+				</div>
+
+			</div>
+			
+			<div class="dropdown-divider"></div>
+			<div class="row justify-content-center">
+	            <div class="text-center titulo-div-modal">
+	                <h6>Datos del Usuario</h6>
+	            </div>
+        	</div>
+			<div class="container-fluid">
+				<div class="row justify-content-around" id="" style="margin-top: 10px;">
+					<div class="col text-center">
+						{% if object.usuario.imagen %}
+							<img id="myImg" src="{{ object.usuario.imagen.url }}" class="img-circle" width="100" height="100" alt="{{ object.usuario.nombres }} {{ object.usuario.apellidos }}">
+						{% else %}
+							<img id="myImg" src="{% static 'personal/imagen/sin_imagen.png' %}" class="img-circle" width="100" height="100" alt="No existe">
+						{% endif %}
+					</div>
+					<div class="col text-center">
+						<p class="text-justify parrafo-div-modal" style="margin:-0.5% 0;">Nombres y apellidos: <span class="parrafo-span-div-modal">{{ object.usuario.nombres|title }} {{ object.usuario.apellidos|title}}</span></p>
+						<div class="dropdown-divider"></div>
+						<p class="text-justify parrafo-div-modal">Email: <span class="parrafo-span-div-modal">{{ object.usuario.email }}</span></p>
+					</div>
+				</div>
+			</div>
+
+			<div class="dropdown-divider"></div>
+			
+		</div>
+	</div>
+</div>

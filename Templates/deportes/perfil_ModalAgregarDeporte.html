@@ -1,0 +1,54 @@
+{% load bootstrap4 %}
+<div class="modal-dialog modal-lg swal2-show" role="document">
+    <div class="modal-content">
+        <h3>Nuevo Deporte</h3>
+        <!-- id="form_agregar es llamado en main.js dentro de la funcion registrar" -->
+        <form id="form_agregar" action="{% url 'templates_deporte:agregar_deporte'%}" class="form-contact contact_form" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <!-- div para mostrar errores 
+                se llama el id="erroresAgregar desde la funcion mostrarErroresAgregar() que esta en main.js" -->
+                <div id="erroresAgregar">   
+                </div>
+                <!-- fin mostrar errores -->
+                <div class="row">
+                    <div class="col-12">
+                                    <div class="form-group">
+                                         <h1 class="resaltar-input">{{ form.nombre.label}}: {{form.nombre}}</h1>
+                                         
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <h1 class="resaltar-textarea">{{ form.descripcion.label}}: {{form.descripcion}}</h1>
+                                    </div>
+                                </div> 
+                                 <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <h1 class="resaltar-input">{{ form.cantidad.label}}: {{form.cantidad}}</h1> 
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <h1 class="resaltar-input">{{ form.precio.label}}: {{form.precio}}</h1>   
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <h1 class="resaltar-input">{{ form.imagen.label }}: {{form.imagen}}</h1>
+
+                                    </div>
+                                </div>
+                </div>
+            </div>
+        
+             <div class="mi-footer-modal">
+                <!-- mediante el onclick llamamos a la funcion registrarUsuario()
+                que esta en el templates.js -->
+                <button id="bloquear_button_agregar" class="btn btn-success" type="button" onclick="registrarDeporte();"><i class="fas fa-save"></i> Guardar</button>
+                <button class="btn btn-danger" type="button" onclick="cerrar_modal_agregar();"><i class="far fa-times-circle"></i> Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

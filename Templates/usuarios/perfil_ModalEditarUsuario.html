@@ -1,0 +1,66 @@
+{% load bootstrap4 %}
+<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title">Editar Usuario: {{object.nombres}}</h2>
+			<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<form id="form_editar" action="{% url 'templates_usuario:editar_usuario' object.pk %}" class="form-editar contact_form" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<div class="modal-body">
+				<div id="erroresEditar">	
+				</div>
+				<div class="col-12">
+                    <div class="form-group">
+                    	<div class="form-group row">
+						    <label class="col-sm-2 col-form-label">Password:</label>
+						    <div class="col-sm">
+						    	<FONT FACE="times new roman" SIZE=3 style="color: #a1a3a6;">{{object.password}}</FONT>
+						    </div>
+						    <div class="col-sm-10">
+						    	<FONT FACE="times new roman" SIZE=2 >
+						    		<p style="line-height:15px">Las contraseñas sin procesar no se almacenan, por lo que no hay forma de ver la contraseña de este usuario, pero puedes cambiar la contraseña usando <a href="#" onclick="abrir_modal_editar('{% url 'templates_usuario:editar_password_usuario' object.pk %}');">Cambiar Contraseña</a></p>
+						    		
+						    	</FONT>
+						    </div>
+						    
+						</div>
+                    </div>
+                </div>
+                <hr>
+				<div class="row">
+					<div class="col-sm-6">
+	                    <div class="form-group">
+	                    	<h1 class="resaltar-input">{{ form.nombres.label}} {{form.nombres}}</h1> 
+	                    	
+	                    </div>
+	                </div>
+	                <div class="col-sm-6">
+	                    <div class="form-group">
+	                    	<h1 class="resaltar-input">{{ form.apellidos.label}} {{form.apellidos}}</h1>   
+	                    </div>
+	                </div>
+	                <div class="col-12">
+	                    <div class="form-group">
+	                    	 <h1 class="resaltar-input">{{ form.email.label}} {{form.email}}</h1>
+	                    	 
+	                    </div>
+	                </div>               
+	                
+	                <div class="col-12">
+	                    <div class="form-group">
+	                    	<h1>{{ form.imagen.label }}</h1>
+	                    	<h1>{{form.imagen}}</h1>
+	                    </div>
+	                </div>
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button id="bloquear_button_agregar" class="btn btn-info" type="button" onclick="editarUsuario();">Confirmar</button>
+				<button class="btn btn-danger" type="button" onclick="cerrar_modal_editar();">Cancelar</button>
+			</div>
+		</form>
+	</div>
+</div>

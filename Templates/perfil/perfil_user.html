@@ -1,0 +1,552 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}CoGua{% endblock titulo %}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'adminLTE3/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static 'adminLTE3/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminLTE3/dist/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'personal/css/style.css' %}">
+  {% block cssextras %}
+  {% endblock cssextras %}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{% url 'templates_home:index' %}" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="fas fa-user-cog"></i>
+          <i class="fas fa-sort-down"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">Configuración</span>
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" data-widget="fullscreen">
+            <i class="fas fa-expand-arrows-alt mr-2"></i>
+            Expander Pantalla
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="dropdown-item">
+            <i class="fas fa-user-edit mr-2"></i>
+            Editar Perfil
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="#" onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_password_actual' %}');" class="dropdown-item">
+            <i class="fas fa-key mr-2"></i>
+            Cambiar mi contraseña
+          </a>
+          {% if request.user.is_superuser %}
+            <div class="dropdown-divider"></div>
+            <a href="{% url 'admin:index' %}" class="dropdown-item">
+              <i class="fas fa-cogs mr-2"></i>
+              Administración Cogua
+            </a>
+          {% endif %}
+          <div class="dropdown-divider"></div>
+          <a href="{% url 'logout' %}" class="dropdown-item">
+            <i class="fas fa-sign-out-alt mr-2"></i>
+            Cerrar Sesión
+          </a>
+          <div class="dropdown-divider"></div>
+        </div>
+      </li>
+      
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container 
+  tipos de sidebar: 
+  sidebar-light-info
+  sidebar-dark-info
+  sidebar-dark-warning
+  -->
+  <aside class="main-sidebar sidebar-dark-info elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+
+      <img src="{% static 'adminLTE3/dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .9">
+      <span class="brand-text font-weight-light">CoGua</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <div class="circular--portrait">
+            {% if user.imagen %}
+              <img src="{{ user.imagen.url }}" class="elevation-2">
+            {% else %}
+              <img src="{% static 'personal/imagen/usuario.png' %}" class="elevation-2" style="margin-left: -4.3px">
+            {% endif %}
+          </div>
+        </div>
+        <div class="info">
+          <a href="{% url 'templates_perfil:perfil' %}" class="d-block">{{ user.nombres | title }} {{ user.apellidos | title }}</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form  
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      -->
+      
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          {% block menu_open %}
+            {% if request.user.is_staff %}
+              <li class="nav-item">
+                <a href="#" class="nav-link animar-mi-menu">
+                  <i class="nav-icon fas fa-user-shield"></i>
+                  <p>
+                    Administrar
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  {% if request.user.is_superuser %}
+                    <li class="nav-item">
+                      <a href="{% url 'templates_usuario:listar_usuario' %}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Usuarios</p>
+                      </a>
+                    </li>
+                  {% endif %}
+
+                    <li class="nav-item">
+                      <a href="{% url 'templates_hotel:listar_hoteles' %}" class="nav-link">
+                        <i class="nav-icon fas fa-concierge-bell"></i>
+                        <p>Cabañas</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+                      <a href="{% url 'templates_deporte:listar_deporte' %}" class="nav-link">
+                        <i class="nav-icon fas fa-biking"></i>
+                        <p>Deportes</p>
+                      </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a href="{% url 'templates_plato:listar_platos' %}" class="nav-link">
+                        <i class="nav-icon fas fa-utensils"></i>
+                        <p>Platos Tipicos</p>
+                      </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                      <a href="{% url 'templates_turismo:listar_turismos' %}" class="nav-link">
+                        <i class="nav-icon  fas fa-globe-asia"></i>
+                        <p>Lugares Turisticos</p>
+                      </a>
+                    </li>
+                </ul>
+              </li>
+            {% endif %}
+          {% endblock menu_open %}
+          {% block menu_open_reservaciones %}
+            <li class="nav-item">
+              {% if request.user.is_staff %}
+              <a href="#" class="nav-link animar-mi-menu">
+                <i class="nav-icon fab fa-resolving"></i>
+                  <p>
+                    Reservaciones
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              {% else %}
+              <a href="#" class="nav-link animar-mi-menu">
+                <i class="nav-icon fab fa-resolving"></i>
+                  <p>
+                    Reservaciones
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+              </a>
+              {% endif %}
+              <ul class="nav nav-treeview">
+                {% if request.user.is_staff %}
+                  {% if reserva_deportes or reserva_hoteles or reserva_platos or reserva_turismos%}
+                      {% if reserva_hoteles %}
+                        <li class="nav-item">
+                          <a href="{% url 'templates_perfil:listar_reservas_hoteles' %}" class="nav-link">
+                            <i class="nav-icon fas fa-concierge-bell"></i>
+                            <p>Cabañas</p>
+                          </a>
+                        </li>
+                      {% endif %}
+                      {% if reserva_deportes %}
+                      <li class="nav-item">
+                        <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+                        <a href="{% url 'templates_perfil:listar_reservas_deportes' %}"  class="nav-link">
+                          <i class="nav-icon fas fa-biking"></i>
+                          <p>Deportes</p>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% if reserva_platos %}
+                      <li class="nav-item">
+                        <a href="{% url 'templates_perfil:listar_reservas_platos' %}" class="nav-link">
+                          <i class="nav-icon fas fa-utensils"></i>
+                          <p>Platos Tipicos</p>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% if reserva_turismos %}
+                      <li class="nav-item">
+                        <a href="{% url 'templates_perfil:listar_reservas_turismos' %}" class="nav-link">
+                          <i class="nav-icon  fas fa-globe-asia"></i>
+                          <p>Lugares Turisticos</p>
+                        </a>
+                      </li>
+                      {% endif %}
+                  {% else %}
+                    <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-ban"></i>
+                        <p>No existen Reservas</p>
+                      </a>
+                    </li>
+                  {% endif %}
+                {% else %}
+                  {% if n_reservaciones %}
+                  <li class="nav-item">
+                    <a href="{% url 'templates_perfil:listar_reservas_user_deportes' %}" class="nav-link ">
+                      <i class="nav-icon fas fa-compass"></i>
+                      <p>Mis reservas ({{ n_reservaciones }})</p>
+                    </a>
+                  </li>
+                  {% else %}
+                  <li class="nav-item">
+                    <a href="#" class="nav-link ">
+                      <i class="nav-icon  fab fa-creative-commons-zero"></i>
+                      <p>No existen reservas</p>
+                    </a>
+                  </li>
+                  {% endif %}
+                {% endif %}
+              </ul>
+            </li>
+          {% endblock menu_open_reservaciones %}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Paginas
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'templates_home:listado_hoteles_disponibles' %}" class="nav-link">
+                  <i class="nav-icon fas fa-concierge-bell"></i>
+                  <p>Cabañas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'templates_home:listado_deportes_disponibles' %}" class="nav-link">
+                  <i class="nav-icon fas fa-biking"></i>
+                  <p>Deportes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'templates_home:listado_platos_disponibles' %}" class="nav-link">
+                  <i class="nav-icon fas fa-utensils"></i>
+                  <p>Platos Tipicos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'templates_home:listado_turismos_disponibles' %}" class="nav-link">
+                  <i class="nav-icon  fas fa-globe-asia"></i>
+                  <p>Lugares Turisticos</p>
+                </a>
+              </li>
+          
+            </ul>
+          </li>
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon far fa-plus-square"></i>
+              <p>
+                Extras
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="#" onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="nav-link">
+                  <i class="fas fa-pen nav-icon"></i>
+                  <p>Editar mi perfil</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#" onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_password_actual' %}');" class="nav-link">
+                  <i class="fas fa-key nav-icon"></i>
+                  <p>Cambiar contraseña</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-header">Otros</li>
+
+          <li class="nav-item">
+            <a href="pages/gallery.html" class="nav-link">
+              <i class="nav-icon far fa-image"></i>
+              <p>
+                Gallery
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="pages/kanban.html" class="nav-link">
+              <i class="nav-icon fas fa-columns"></i>
+              <p>
+                Kanban Board
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon far fa-circle text-info"></i>
+              <p>Informational</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">{% block tablatitulo %}Mi perfil{% endblock tablatitulo %}</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Table</li>
+              <div class="card-tools">
+
+                <div class="btn-group">
+                  <button type="button" class="btn btn-tool " data-toggle="dropdown">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  {% block navtabla %}
+                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                      {% if request.user.is_staff %}
+                        {% if request.user.is_superuser %}
+                          <a href="{% url 'templates_usuario:listar_usuario' %}" class="dropdown-item">Listar Usuarios</a>
+                        {% endif %}
+                        <a href="{% url 'templates_hotel:listar_hoteles' %}" class="dropdown-item">Listar Cabañas</a>
+                        <a href="{% url 'templates_deporte:listar_deporte' %}" class="dropdown-item">Listar Deportes</a>
+                        <a href="{% url 'templates_plato:listar_platos' %}" class="dropdown-item">Listar Platos Típicos</a>
+                        <a href="{% url 'templates_turismo:listar_turismos' %}" class="dropdown-item">Listar Lugares Turísticos</a>
+                      {% endif %}
+                    </div>
+                  {% endblock navtabla %}
+                </div>
+                
+              </div>
+            </ol>
+
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+       
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            {% block tabla %}
+              <div class="">
+                <div class="card-header">
+                    <div class="float-left mr-5 perfil-user-image">
+                      {% if user.imagen %}
+                      <img id="myImg" src="{{ user.imagen.url }}" alt="{{ user.nombres }} {{ user.apellidos }}">
+                      {% else %}
+                      <img id="myImg" src="{% static 'personal/imagen/usuario.png' %}" class="elevation-2" alt="{{ user.nombres }} {{ user.apellidos }}" style="margin-left: -30px">
+                      {% endif %}
+                    </div>
+                    <div class="float-center mr-5">
+                      <div class="perfil-user-titulo">
+                        <h1>Datos Personales <button onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="btn btn-info btn-sm cambiar-button-nuevo" type="button"><i class="fas fa-user-edit cambiar-icon-nuevo"></i></button></h1>
+                      </div>
+                      <div class="perfi-user-datos">
+                        <h5>Nombres: {{ user.nombres | title }}</h5>
+                        <h5>Apellidos: {{ user.apellidos | title }}</h5>
+                        <h5>Email: {{ user.email }}</h5>
+                        <h5>Password: *******************</h5>
+                        <h5>La sesión comenzó el: {{ user.last_login }}</h5>
+                      </div>
+                    </div>
+                    
+                  
+                </div>
+              </div>
+            {% endblock tabla %}
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- Main row -->
+       
+        <!-- /.row -->
+      </div><!--/. container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2021 <a href="#">DimPage</a>.</strong>
+    Todos los derechos reservados.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 1.1.0
+    </div>
+  </footer>
+</div>
+<div id="popUp" class="modal1" style="z-index: 3000">
+  <span class="close1">&times;</span>
+  <img class="modal-content1" id="img01">
+  <div id="caption1"></div>
+</div>
+
+<!-- ./wrapper -->
+<div class="modal fade"  data-backdrop="static" id="modalEditar" rol="dialog">
+</div>
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="{% static 'adminLTE3/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap -->
+<script src="{% static 'adminLTE3/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'adminLTE3/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminLTE3/dist/js/adminlte.js' %}"></script>
+
+<!-- PAGE PLUGINS -->
+<!-- jQuery Mapael 
+<script src="{% static 'adminLTE3/plugins/jquery-mousewheel/jquery.mousewheel.js' %}"></script>
+<script src="{% static 'adminLTE3/plugins/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'adminLTE3/plugins/jquery-mapael/jquery.mapael.min.js' %}"></script>
+<script src="{% static 'adminLTE3/plugins/jquery-mapael/maps/usa_states.min.js' %}"></script>
+
+<script src="{% static 'adminLTE3/plugins/chart.js/Chart.min.js' %}"></script>-->
+
+<!-- AdminLTE for demo purposes 
+<script src="{% static 'adminLTE3/dist/js/demo.js' %}"></script>
+ AdminLTE dashboard demo (This is only for demo purposes) 
+<script src="{% static 'adminLTE3/dist/js/pages/dashboard2.js' %}"></script> -->
+<!-- para improtar sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{% static 'personal/main.js' %}"></script>
+<script src="{% static 'personal/js/usuarios/templates.js' %}"></script>
+<script type="text/javascript">
+
+    var modal = document.getElementById('popUp');
+
+    var img = document.getElementById('myImg');
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption1");
+    img.onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        captionText.innerHTML = this.alt;
+    }
+
+    var span = document.getElementsByClassName("close1")[0];
+
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+</script>
+
+<!-- script para mensaje de permisos 
+la variable messages es llada desde el archivo mixins.py del def dispatch-->
+<script type="text/javascript">
+  {% if messages %}
+    var html_mensaje = '';
+    {% for mensaje in messages %}
+      html_mensaje += '{{ mensaje }}';
+    {% endfor %}
+    sweetError(html_mensaje);
+  {% endif %}
+</script>
+{% block extrajs %}
+{% endblock extrajs %}
+</body>
+</html>

@@ -1,0 +1,120 @@
+{% load staticfiles %}
+<style type="text/css">
+    .fechainput{
+        border-top: 0 !important;
+        border-right: 0 !important;
+        border-left: 0 !important;
+        transition: 1s !important;
+        border-bottom: 3px solid #576362 !important;
+        font-size: 15px !important;
+
+    }
+    .fechainput:focus{
+        border-bottom: 3px solid #26a69a !important;
+        border-top: 0px solid red !important;
+        outline: none !important;
+        transition: 1s !important;
+        font-size: 17px !important;
+    }
+    
+    input[type="date"]::-webkit-calendar-picker-indicator{ 
+         background-image: url('{% static 'home/icon/calendario2.png' %}'); 
+         background-position:center; 
+         background-size:20px 20px; 
+         background-repeat:no-repeat; 
+         color:rgba(204,204,204,0);
+         cursor: pointer; 
+    }
+    .mi-footer-modal button{
+        border-radius: 0px;
+    }
+    .mi-footer-modal{
+        text-align: center !important;
+        margin: 0px   0px   -15px   0px;
+    }
+</style>
+
+
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Reservar Plato Típico</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- id="form_agregar es llamado en main.js dentro de la funcion registrar" -->
+        <form class="form-contact contact_form">
+            <div class="modal-body">
+                <div class="container-fluid separar-imagen-deporte-modal">
+                    {% if object.imagen %}
+                        <img src="{{ object.imagen.url }}" class="img-fluid mx-auto d-block" width="300" height="300" alt="Responsive image">
+                    {% else %}
+                        <img src=".." class="rounded mx-auto d-block" width="304" height="236">
+                        <h1>No existe imagen</h1>
+                    {% endif %}
+                </div>
+                <div class="form-group row">
+                    <label for="nombre" class="col-form-label col-sm-4">Fecha de inicio:</label>
+                    <div class="col-sm-8">
+                        <input class="form-control fechainput" type="date" id="fechainicial" name="fecha1" required=”required”><br>
+                    </div>
+                </div>
+                
+                <div class="form-group row">
+                    <label for="nombre" class="col-form-label col-sm-4">Fecha de fin:</label>
+                    <div class="col-sm-8">
+                        <input class="form-control fechainput" type="date" id="fechafinal" name="fecha2" required=”required”><br>
+                    </div>
+                </div>
+
+                <div class="modal-footer mi-footer-modal">
+                    <!-- mediante el onclick llamamos a la funcion registrarUsuario()
+                    que esta en el templates.js -->
+                    <button id="bloquear_button_agregar" class="btn btn-info" type="button" onclick="registrarReserva();">Realizar Reserva</button>
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    fechainicial.min = new Date().toISOString().split("T")[0];
+    fechafinal.min = new Date().toISOString().split("T")[0];
+
+    function registrarReserva(){
+        data = {
+            'usuario': "{{ request.user.id }}",
+            'plato':"{{ object.id }}",
+            'fecha1':$('input[name="fecha1"]').val(),
+            'fecha2':$('input[name="fecha2"]').val(),
+            csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
+        }
+        $.ajax({
+            data:data,
+            url:"{% url 'templates_reserva:reservar_plato' %}",
+            type: 'POST',
+            success:function(response){
+                Swal.fire({
+                    title: 'Reserva Exitosa!',
+                    html:
+                        'Puedes revisar tus reservas en tu ' +
+                        '<b><a href="{% url 'templates_perfil:listar_reservas_user_deportes' %}">Perfil <br>{{ user.nombres | title }} {{ user.apellidos | title }}</a></b>',
+                    icon: 'success',
+                    confirmButtonText: `OK`
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = response.url;
+                  } else {
+                    window.location.href = response.url;
+                  }
+                })
+            },
+            error:function(error){
+                sweetError(error.responseJSON.mensaje);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,198 @@
+{% extends 'perfil/perfil_user.html' %}
+{% load staticfiles %}
+{% block titulo %}CoGua | Listar Reservas Deportes{% endblock titulo %}
+
+{% block cssextras %}
+  <link rel="stylesheet" href="{% static 'dowloand_bootstrap/css/lib/datatable/dataTables.bootstrap.min.css' %}">
+{% endblock cssextras %}
+
+
+{% block menu_open %}
+  {% if request.user.is_staff %}
+    <li class="nav-item">
+      <a href="#" class="nav-link animar-mi-menu">
+        <i class="nav-icon fas fa-user-shield"></i>
+          <p>
+            Administrar
+            <i class="right fas fa-angle-left"></i>
+          </p>
+      </a>
+      <ul class="nav nav-treeview">
+        {% if request.user.is_superuser %}
+          <li class="nav-item">
+            <a href="{% url 'templates_usuario:listar_usuario' %}" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Usuarios</p>
+            </a>
+          </li>
+        {% endif %}
+          <li class="nav-item">
+            <a href="{% url 'templates_hotel:listar_hoteles' %}" class="nav-link">
+              <i class="nav-icon fas fa-concierge-bell"></i>
+              <p>Cabañas</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+            <a href="{% url 'templates_deporte:listar_deporte' %}" class="nav-link">
+              <i class="nav-icon fas fa-biking"></i>
+              <p>Deportes</p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{% url 'templates_plato:listar_platos' %}" class="nav-link">
+              <i class="nav-icon fas fa-utensils"></i>
+              <p>Platos Tipicos</p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{% url 'templates_turismo:listar_turismos' %}" class="nav-link">
+              <i class="nav-icon  fas fa-globe-asia"></i>
+              <p>Lugares Turisticos</p>
+            </a>
+          </li>
+      </ul>
+    </li>
+  {% endif %}
+{% endblock menu_open %}
+
+{% block menu_open_reservaciones %}
+  <li class="nav-item menu-open">
+    {% if request.user.is_staff %}
+    <a href="#" class="nav-link active animar-mi-menu">
+      <i class="nav-icon fab fa-resolving"></i>
+        <p>
+          Reservaciones
+          <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    {% else %}
+    <a href="#" class="nav-link active animar-mi-menu">
+      <i class="nav-icon fab fa-resolving"></i>
+        <p>
+          Mis Reservas
+          <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    {% endif %}
+    <ul class="nav nav-treeview">
+      {% if request.user.is_staff %}
+        {% if reserva_deportes or reserva_hoteles or reserva_platos or reserva_turismos%}
+            {% if reserva_hoteles %}
+              <li class="nav-item">
+                <a href="{% url 'templates_perfil:listar_reservas_hoteles' %}" class="nav-link">
+                  <i class="nav-icon fas fa-concierge-bell"></i>
+                  <p>Cabañas</p>
+                </a>
+              </li>
+            {% endif %}
+            {% if reserva_deportes %}
+            <li class="nav-item">
+              <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+              <a href="{% url 'templates_perfil:listar_reservas_deportes' %}"  class="nav-link active mi-nav-link">
+                <i class="nav-icon fas fa-biking"></i>
+                <p>Deportes</p>
+              </a>
+            </li>
+            {% endif %}
+            {% if reserva_platos %}
+            <li class="nav-item">
+              <a href="{% url 'templates_perfil:listar_reservas_platos' %}" class="nav-link">
+                <i class="nav-icon fas fa-utensils"></i>
+                <p>Platos Tipicos</p>
+              </a>
+            </li>
+            {% endif %}
+            {% if reserva_turismos %}
+            <li class="nav-item">
+              <a href="{% url 'templates_perfil:listar_reservas_turismos' %}" class="nav-link">
+                <i class="nav-icon  fas fa-globe-asia"></i>
+                <p>Lugares Turisticos</p>
+              </a>
+            </li>
+            {% endif %}
+        {% else %}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-ban"></i>
+              <p>No existen Reservas</p>
+            </a>
+          </li>
+        {% endif %}
+      {% else %}
+        <li class="nav-item">
+          <a href="{% url 'templates_turismo:listar_turismos' %}" class="nav-link">
+            <i class="nav-icon fas fa-mountain"></i>
+            <p>Mi Reserva</p>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </li>
+{% endblock menu_open_reservaciones %}
+
+{% block tablatitulo %}
+<div class="cambiar-titulo-deportes">
+  <h1>Reservaciones de los Deportes</h1> 
+  
+</div>
+
+
+{% endblock tablatitulo %}
+{% block navtabla %}
+  <div class="dropdown-menu dropdown-menu-right" role="menu">
+    {% if request.user.is_staff %}
+      {% if request.user.is_superuser %}
+        <a href="{% url 'templates_usuario:listar_usuario' %}" class="dropdown-item">Listar Usuarios</a>
+      {% endif %}
+      <a href="{% url 'templates_hotel:listar_hoteles' %}" class="dropdown-item">Listar Cabañas</a>
+      <a href="{% url 'templates_deporte:listar_deporte' %}" class="dropdown-item">Listar Deportes</a>
+      <a href="{% url 'templates_plato:listar_platos' %}" class="dropdown-item">Listar Platos Típicos</a>
+      <a href="{% url 'templates_turismo:listar_turismos' %}" class="dropdown-item">Listar Lugares Turísticos</a>
+    {% endif %}
+  </div>
+{% endblock navtabla %}
+{% block tabla %}
+  <div class="card">
+    <div class="card-header">
+      <div class="table-responsive">
+        <table id="tabla_reservas_deportes" class="table table-hover" cellpadding="0" cellspacing="2">
+          <thead class="thead-light titulo-table">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">CLIENTE</th>
+              <th scope="col">DEPORTE</th>
+              <th scope="col">RESERVADO</th>
+              <th scope="col" class="text-center" style="padding-left: 26px;" WIDTH="50">OPCIÓN</th>
+            </tr>
+
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Contenedor del modal -->
+  <div class="modal fade" id="modalAgregar" rol="dialog">
+
+  </div>
+  <div class="modal fade " data-backdrop="static" id="modalDetalles" rol="dialog">
+
+  </div>
+  <div class="modal fade" id="modalEditar" rol="dialog">
+
+  </div>
+  <div class="modal fade" id="modalEliminar" rol="dialog">
+
+  </div>
+{% endblock tabla %}
+
+{% block extrajs %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'dowloand_bootstrap/js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'personal/js/reservas_admin/deportes/templates.js' %}"></script>
+
+{% endblock extrajs %}

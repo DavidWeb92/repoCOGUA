@@ -1,0 +1,295 @@
+{% extends 'perfil/perfil_user.html' %}
+{% load staticfiles %}
+{% block titulo %}CoGua | Listar Reservas Deportes{% endblock titulo %}
+
+{% block cssextras %}
+  <link rel="stylesheet" href="{% static 'dowloand_bootstrap/css/lib/datatable/dataTables.bootstrap.min.css' %}">
+{% endblock cssextras %}
+
+
+{% block menu_open %}
+  {% if request.user.is_staff %}
+    <li class="nav-item">
+      <a href="#" class="nav-link animar-mi-menu">
+        <i class="nav-icon fas fa-user-shield"></i>
+          <p>
+            Administrar
+            <i class="right fas fa-angle-left"></i>
+          </p>
+      </a>
+      <ul class="nav nav-treeview">
+        {% if request.user.is_superuser %}
+          <li class="nav-item">
+            <a href="{% url 'templates_usuario:listar_usuario' %}" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Usuarios</p>
+            </a>
+          </li>
+        {% endif %}
+          <li class="nav-item">
+            <a href="{% url 'templates_hotel:listar_hoteles' %}" class="nav-link">
+              <i class="nav-icon fas fa-concierge-bell"></i>
+              <p>Cabañas</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+            <a href="{% url 'templates_deporte:listar_deporte' %}" class="nav-link">
+              <i class="nav-icon fas fa-biking"></i>
+              <p>Deportes</p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{% url 'templates_plato:listar_platos' %}" class="nav-link">
+              <i class="nav-icon fas fa-utensils"></i>
+              <p>Platos Tipicos</p>
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a href="{% url 'templates_turismo:listar_turismos' %}" class="nav-link">
+              <i class="nav-icon fas fa-mountain"></i>
+              <p>Lugares Turisticos</p>
+            </a>
+          </li>
+      </ul>
+    </li>
+  {% endif %}
+{% endblock menu_open %}
+
+{% block menu_open_reservaciones %}
+  <li class="nav-item menu-open">
+    {% if request.user.is_staff %}
+    <a href="#" class="nav-link active animar-mi-menu">
+      <i class="nav-icon fab fa-resolving"></i>
+        <p>
+          Reservaciones
+          <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    {% else %}
+    <a href="#" class="nav-link active animar-mi-menu">
+      <i class="nav-icon fab fa-resolving"></i>
+        <p>
+          Reservaciones
+          <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    {% endif %}
+    <ul class="nav nav-treeview">
+      {% if request.user.is_staff %}
+        {% if reserva_deportes or reserva_hoteles or reserva_platos or reserva_turismos%}
+            {% if reserva_hoteles %}
+              <li class="nav-item">
+                <a href="{% url 'templates_perfil:listar_reservas_hoteles' %}" class="nav-link">
+                  <i class="nav-icon fas fa-concierge-bell"></i>
+                  <p>Cabañas</p>
+                </a>
+              </li>
+            {% endif %}
+            {% if reserva_deportes %}
+            <li class="nav-item">
+              <!-- {% url 'nombre de la url principal:listar_deporte' } -->
+              <a href="{% url 'templates_perfil:listar_reservas_deportes' %}"  class="nav-link">
+                <i class="nav-icon fas fa-biking"></i>
+                <p>Deportes</p>
+              </a>
+            </li>
+            {% endif %}
+            {% if reserva_platos %}
+            <li class="nav-item">
+              <a href="{% url 'templates_perfil:listar_reservas_platos' %}" class="nav-link">
+                <i class="nav-icon fas fa-utensils"></i>
+                <p>Platos Tipicos</p>
+              </a>
+            </li>
+            {% endif %}
+            {% if reserva_turismos %}
+            <li class="nav-item">
+              <a href="{% url 'templates_perfil:listar_reservas_turismos' %}" class="nav-link">
+                <i class="nav-icon fas fa-mountain"></i>
+                <p>Lugares Turisticos</p>
+              </a>
+            </li>
+            {% endif %}
+        {% else %}
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-ban"></i>
+              <p>No existen Reservas</p>
+            </a>
+          </li>
+        {% endif %}
+      {% else %}
+        <li class="nav-item">
+          <a href="{% url 'templates_perfil:listar_reservas_user_deportes' %}" class="nav-link  active mi-nav-link">
+            <i class="nav-icon fas fa-compass"></i>
+            
+            <p>Mis reservas ({{ n_reservaciones }})</p>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </li>
+{% endblock menu_open_reservaciones %}
+
+{% block tablatitulo %}
+<div class="cambiar-titulo-deportes">
+  <h1>Mis Reservaciones</h1> 
+</div>
+
+
+{% endblock tablatitulo %}
+{% block navtabla %}
+{% endblock navtabla %}
+{% block tabla %}
+    <div class="card-header">
+        {% if  reserva_deportes_user or reserva_turismos_user or reserva_platos_user or reserva_hoteles_user%}
+          <!-- reservaciones de deportes -->
+          {% if  reserva_deportes_user%}
+            <div class="row" style="margin: 30px;">
+                <div class="col-md-12 text-center ">
+                    <strong class="card-title">
+                        <h2>Deportes</h2>
+                    </strong>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    {% for deporte in reserva_deportes_user %}
+                      <div class="col-md-4 efecto-user-div">
+                              <div class="card perfil-user-div-imagenes">
+                                  {% if  deporte.deporte.imagen %}
+                                    <img class="card-img-top" src="{{ deporte.deporte.imagen.url }}" alt="Card image cap">
+                                  {% else %}
+                                    <img class="card-img-top" src="{% static 'personal/imagen/sin_imagen.png' %}" alt="No existe">
+                                  {% endif %}
+                                  <div class="card-body quitar-espacio efecto-footer-user-reserva">
+                                      <p class="card-text">Reservado: <span>El dia {{ deporte.created|date:"l" }} {{ deporte.created|date:"d"}} de {{deporte.created|date:"F"}} del {{deporte.created|date:"Y"}} a las {{ deporte.created|date:"P" }}</span> </p>
+                                      <button onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="card-title mb-3">{{ deporte.deporte }}</button>
+                                  </div>
+                              </div>
+                      </div>
+                    {% endfor %}
+                </div>
+            </div>
+          {% endif %}
+          <!-- reservaciones de hoteles-->
+          {% if  reserva_hoteles_user%}
+            <div class="row" style="margin: 30px;">
+                <div class="col-md-12 text-center ">
+                    <strong class="card-title">
+                        <h2>Hoteles</h2>
+                    </strong>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    {% for hotel in reserva_hoteles_user %}
+                      <div class="col-md-4 efecto-user-div">
+                              <div class="card perfil-user-div-imagenes">
+                                  {% if  hotel.hotel.imagen %}
+                                    <img class="card-img-top" src="{{ hotel.hotel.imagen.url }}" alt="Card image cap">
+                                  {% else %}
+                                    <img class="card-img-top" src="{% static 'personal/imagen/sin_imagen.png' %}" alt="No existe">
+                                  {% endif %}
+                                  <div class="card-body quitar-espacio efecto-footer-user-reserva">
+                                      <p class="card-text">Reservado: <span>El dia {{ hotel.created|date:"l" }} {{ hotel.created|date:"d"}} de {{hotel.created|date:"F"}} del {{hotel.created|date:"Y"}} a las {{ hotel.created|date:"P" }}</span> </p>
+                                      <button onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="card-title mb-3">{{ hotel.hotel }}</button>
+                                  </div>
+                              </div>
+                      </div>
+                    {% endfor %}
+                </div>
+            </div>
+          {% endif %}
+          <!-- reservaciones de platos-->
+          {% if  reserva_platos_user%}
+            <div class="row" style="margin: 30px;">
+                <div class="col-md-12 text-center ">
+                    <strong class="card-title">
+                        <h2>Platos Típicos</h2>
+                    </strong>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    {% for plato in reserva_platos_user %}
+                      <div class="col-md-4 efecto-user-div">
+                              <div class="card perfil-user-div-imagenes">
+                                  {% if  plato.plato.imagen %}
+                                    <img class="card-img-top" src="{{ plato.plato.imagen.url }}" alt="Card image cap">
+                                  {% else %}
+                                    <img class="card-img-top" src="{% static 'personal/imagen/sin_imagen.png' %}" alt="No existe">
+                                  {% endif %}
+                                  <div class="card-body quitar-espacio efecto-footer-user-reserva">
+                                      <p class="card-text">Reservado: <span>El dia {{ plato.created|date:"l" }} {{ plato.created|date:"d"}} de {{plato.created|date:"F"}} del {{plato.created|date:"Y"}} a las {{ plato.created|date:"P" }}</span> </p>
+                                      <button onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="card-title mb-3">{{ plato.plato }}</button>
+                                  </div>
+                              </div>
+                      </div>
+                    {% endfor %}
+                </div>
+            </div>
+          {% endif %}
+           <!-- reservaciones de turismos -->
+          {% if reserva_turismos_user%}
+            <div class="row" style="margin: 30px;">
+                <div class="col-md-12 text-center ">
+                    <strong class="card-title">
+                        <h2>Lugares Turísticos</h2>
+                    </strong>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    {% for turismo in reserva_turismos_user %}
+                      <div class="col-md-4 efecto-user-div">
+                              <div class="card perfil-user-div-imagenes">
+                                  {% if  turismo.turismo.imagen %}
+                                    <img class="card-img-top" src="{{ turismo.turismo.imagen.url }}" alt="Card image cap">
+                                  {% else %}
+                                    <img class="card-img-top" src="{% static 'personal/imagen/sin_imagen.png' %}" alt="No existe">
+                                  {% endif %}
+                                  <div class="card-body quitar-espacio efecto-footer-user-reserva">
+                                      <p class="card-text">Reservado: <span>El dia {{ turismo.created|date:"l" }} {{ turismo.created|date:"d"}} de {{turismo.created|date:"F"}} del {{turismo.created|date:"Y"}} a las {{ turismo.created|date:"P" }}</span> </p>
+                                      <button onclick="abrir_modal_editar('{% url 'templates_perfil:editar_perfil_actual' %}');" class="card-title mb-3">{{ turismo.turismo }}</button>
+                                  </div>
+                              </div>
+                      </div>
+                    {% endfor %}
+                </div>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="row" style="margin: 30px;">
+              <div class="col-md-12 text-center ">
+                  <strong class="card-title">
+                      <h2>Aún no realizas reservaciones de ningún Turismo</h2>
+                  </strong>
+              </div>
+          </div>
+        {% endif %}
+    </div>
+  <!-- Contenedor del modal -->
+  <div class="modal fade" id="modalAgregar" rol="dialog">
+
+  </div>
+  <div class="modal fade " data-backdrop="static" id="modalDetalles" rol="dialog">
+
+  </div>
+  <div class="modal fade" id="modalEditar" rol="dialog">
+
+  </div>
+  <div class="modal fade" id="modalEliminar" rol="dialog">
+
+  </div>
+{% endblock tabla %}
+
+{% block extrajs %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="{% static 'dowloand_bootstrap/js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'personal/js/reservas_admin/deportes/templates.js' %}"></script>
+
+{% endblock extrajs %}

@@ -1,0 +1,1 @@
+web: gunicorn ProyectoTurisColaguango1_2.wsgi --log-file -
