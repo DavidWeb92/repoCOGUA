@@ -55,6 +55,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'Apps.usuarios.middleware.PruebaMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -62,7 +63,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
 ]
 SITE_ID = 1
 ROOT_URLCONF = 'Turismo.urls'
@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'Turismo.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 import dj_database_url
 from decouple import config
-"""
+
 #esta es la manera normal de conectarse a a las base de datos
 DATABASES = {
     'default': {
@@ -102,9 +102,8 @@ DATABASES = {
         'DATABASE_PORT': '5432',
     }
 }
-"""
-#esta es la manera de conectarse a la base de datos utilizando dj_database_url cuando ya esta en produccion
 
+#esta es la manera de conectarse a la base de datos utilizando dj_database_url cuando ya esta en produccion
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -145,18 +144,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-
-    os.path.join(BASE_DIR,'static'),
-
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ##lineas de codigo para las imagenes
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 ##fin de las imagenes
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
