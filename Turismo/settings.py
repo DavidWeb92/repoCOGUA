@@ -92,7 +92,7 @@ import dj_database_url
 from decouple import config
 
 #esta es la manera normal de conectarse a a las base de datos
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'BDTurismo',
@@ -102,8 +102,13 @@ DATABASES = {
         'DATABASE_PORT': '5432',
     }
 }
-
+"""
 #esta es la manera de conectarse a la base de datos utilizando dj_database_url cuando ya esta en produccion
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
