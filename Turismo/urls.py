@@ -22,7 +22,7 @@ from django.urls import path, include, re_path
 from django.contrib.auth.decorators import login_required
 #from Apps.deportes.views import ListarDeporte
 #from Apps.perfil.views import Perfil
-from Apps.perfil.views import Login, logoutUsuario, RegistrarUser
+from Apps.perfil.views import Login, logoutUsuario, RegistrarUser, LoginConfirmed
 
 from django.conf.urls.static import static
 
