@@ -39,7 +39,7 @@ SECRET_KEY = 'e(ap(#0*o43#5cgyvuz_$+6chi+6)q4z2%#pi&6t=&b&w&i)yl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['coguamaster.herokuapp.com']
 
 
 # Application definition
