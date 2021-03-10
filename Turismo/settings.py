@@ -165,20 +165,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-     os.path.join(BASE_DIR, "static"),
-]
-
-# Whitenoise Storage Class  - Apply compression but don’t want the caching behaviour
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 ##lineas de codigo para las imagenes
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 ##fin de las imagenes
 
+#linea pendiente
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 #lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
 EMAIL_USE_TLS = True 
