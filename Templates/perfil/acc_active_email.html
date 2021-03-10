@@ -1,0 +1,7 @@
+{% autoescape off %}
+{{ user.email }}
+Hola {{ user.nombres }}, te falta un paso para activar tu cuenta en COGUA.
+Haz clic en el siguiente enlace para confirmar tu correo electrónico,
+
+http://{{ domain }}{% url 'templates_perfil:activate' uidb64=uid token=token %}
+{% endautoescape %}

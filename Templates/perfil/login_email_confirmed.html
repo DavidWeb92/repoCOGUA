@@ -1,0 +1,96 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CoGua | Iniciar Sesión</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  
+  <link rel="stylesheet" href="{% static 'adminLTE3/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'adminLTE3/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'adminLTE3/dist/css/adminlte.min.css' %}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="{% url 'templates_home:index' %}"><b>Cogua</b> Latacunga</a>
+  </div>
+  <div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <!-- <strong>Advertencia: </strong>{{ form.non_field_errors }} -->
+    <strong>Felicidades</strong>, su cuenta ha sido activada. Gracias por su confirmación por correo electrónico. Ahora puede iniciar sesión en su cuenta.
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">Iniciar Sesión</p>
+      <form method="POST">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <!-- <strong>Advertencia: </strong>{{ form.non_field_errors }} -->
+              <strong>Advertencia: </strong> Por favor, introduzca un Email y clave validos. Observe que ambos campos pueden ser sensibles a mayúsculas.
+            </div>
+        {% endif %}
+        <div class="input-group mb-3">
+          {{ form.username | attr:'placeholder: Ingrese su Email' | attr:'autocomplete:off' }}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          {{ form.password | attr:'autocomplete:off' }}
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-info btn-block">Ingresar</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+     
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        
+      </p>
+      <p class="mb-0">
+        No estas Registrado?
+        <a href="{% url 'registrar_user' %}" class="text-center">Registrate Aquí!</a>
+      </p>
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static 'adminLTE3/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'adminLTE3/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'adminLTE3/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>

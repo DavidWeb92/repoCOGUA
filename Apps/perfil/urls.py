@@ -9,6 +9,9 @@ from .views import *
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
+	#url para confirmar el email
+	path('activate/<slug:uidb64>/<slug:token>/', activate, name='activate'),
+	
 	path('perfil/',Perfil.as_view(), name='perfil'),
 	#url para editar ussuario actual
 	path('perfil/editar_perfil/', EditarUserActual.as_view(), name='editar_perfil_actual'),

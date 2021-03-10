@@ -172,4 +172,13 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 ##fin de las imagenes
 
+#linea pendiente
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+#lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
+EMAIL_USE_TLS = True 
+EMAIL_HOST = 'smtp.gmail.com' 
+EMAIL_HOST_USER = 'gad10cogua@gmail.com' 
+EMAIL_HOST_PASSWORD = get_config('EMAIL_HOST_PASSWORD') 
+EMAIL_PORT = 587
+#fin lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios

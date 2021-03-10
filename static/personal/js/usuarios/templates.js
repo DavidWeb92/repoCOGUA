@@ -32,6 +32,11 @@ function listarUsuarios(){
 				}else{
 					fila += '<td class="text-center fila-table"><a href="#" class="link" onclick="abrir_modal_detalles(\'/perfil_admin/detalles_usuario/'+response[i]['pk']+'/\');"><i class="fas fa-times" style="color: red;"></i></td>';
 				}
+				if (response[i]["fields"]['is_active']){
+					fila += '<td class="text-center fila-table"><a href="#" class="link" onclick="abrir_modal_detalles(\'/perfil_admin/detalles_usuario/'+response[i]['pk']+'/\');"><i class="fas fa-check" style="color: green;"></i></a></td>';
+				}else{
+					fila += '<td class="text-center fila-table"><a href="#" class="link" onclick="abrir_modal_detalles(\'/perfil_admin/detalles_usuario/'+response[i]['pk']+'/\');"><i class="fas fa-times" style="color: red;"></i></td>';
+				}
 				fila += '<td class="text-center fila-table"><button type="button" class="btn btn-danger btn-xs  tableButton cambiar-color-button-eliminar" onclick="eliminarSweetAlertUsuario(\''+response[i]['pk']+'\');"><i class="fas fa-trash"></i></button>';
 				fila += '<button type="button" class="btn btn-info btn-xs tableButton cambiar-color-button-editar" onclick="abrir_modal_editar(\'/perfil_admin/editar_usuario/'+response[i]['pk']+'/\');"><i class="fas fa-edit"></i></button>';
 				fila += '</tr>';
@@ -180,6 +185,7 @@ function registrarUser(){
 	nombres = $('input[name="nombres"]').val();
 	apellidos = $('input[name="apellidos"]').val();
 
+	email = $('input[name="email"]').val();
 
 	nombres = nombres.toLowerCase().replace(/\b[a-z]/g, function(letter) { 
 	 
@@ -202,11 +208,11 @@ function registrarUser(){
 	  processData: false,
 	  success: function(response){
 	    Swal.fire({
-	      title: 'Felicidades ' + primernombre + '!',
+	      title: 'Un paso más ' + primernombre + '!',
 	      html:
-	          'Ahora eres parte de nuestra comunidad.' +
-	          '<br><b>Ahora podrás realizar tus reservas sin problemas</b>',
-	      icon: 'success',
+	          '<p>Revisa tu bandeja de entrada de tu correo electrónico y haz clic en el enlace de cogua para confirmar tu cuenta.</p>'+'<p style="color:#9e9e9e";>'+email+'</p>',
+	      icon: 'info',
+	      allowOutsideClick: false,
 	      confirmButtonText: `OK`
 	    }).then((result) => {
 	                if (result.isConfirmed) {

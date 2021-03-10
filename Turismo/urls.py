@@ -28,6 +28,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #url para iniciar sesion despues de confirmar el email
+    path('accounts-confirmed/login/', LoginConfirmed.as_view(), name = 'login_confirmed'),
     #urls para login
     path('accounts/login/', Login.as_view(), name = 'login'),
     path('logout/',login_required(logoutUsuario),name = 'logout'),

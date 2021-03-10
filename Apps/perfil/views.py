@@ -15,6 +15,15 @@ from django.views.generic import  View, TemplateView, CreateView, ListView, Upda
 from Apps.usuarios.forms import LoginForm
 from django.contrib.auth.forms import PasswordChangeForm
 
+#import para envio de correos d confirmacion
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_text
+from Apps.usuarios.tokens import account_activation_token
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+#fin de import para envio de correos d confirmacion
+
 from Apps.usuarios.models import Usuario
 from Apps.usuarios.forms import LoginForm, RegistrarUsuarioForm, EditarUsuarioForm
 
@@ -26,37 +35,64 @@ from Apps.usuarios.mixins import LoginAndSuperStaffMixin
 #es decir necesita iniciar sesion para dirgirise al perfil de ussuario
 #de esta manera se hace desde las clases y no desde la url como lo hace login_required
 class RegistrarUser(CreateView):
-	model = Usuario
-	form_class = RegistrarUsuarioForm
-	template_name = 'perfil/registrar_user.html'
-	success_url = reverse_lazy('templates_perfil:perfil')
+    model = Usuario
+    form_class = RegistrarUsuarioForm
+    template_name = 'perfil/registrar_user.html'
+    success_url = reverse_lazy('templates_home:index')
 
-	def post(self, request, *args, **kwargs):
-		if request.is_ajax():
-			form = self.form_class(data=request.POST,files=request.FILES)
-			if form.is_valid():
-				form.save()
-				mensaje = f'{self.model.__name__} registrado correctamente!'
-				error = 'No hay error!'
-				response = JsonResponse({'mensaje':mensaje,'error':error,'url':self.success_url})
-				response.status_code = 201
-				email= self.request.POST['email']
-				password = self.request.POST['password1']
-				user = authenticate(email=email, password=password)
-				login(self.request, user) 
-				#retorna response para ser interpretado con javascript
-				return response
+    def post(self, request, *args, **kwargs):
+        if request.is_ajax():
+            form = self.form_class(data=request.POST,files=request.FILES)
+            if form.is_valid():
+                #form.save()
+                # Create an inactive user with no password:
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+                current_site = get_current_site(request)
+                mail_subject = 'Activa tu cuenta de COGUA'
+                message = render_to_string('perfil/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':account_activation_token.make_token(user),
+                })
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(
+                            mail_subject, message, to=[to_email]
+                )
+                email.send()
+                mensaje = f'{self.model.__name__} registrado correctamente!'
+                error = 'No hay error!'
+                response = JsonResponse({'mensaje':mensaje,'error':error,'url':self.success_url})
+                response.status_code = 201
+                return response
+                
+            else:
+                mensaje = f'El registro no se ha podido realizar, porfavor intentelo nuevamente!'
+                #guardamos todos los errores mediante form.errors
+                error = form.errors
+                response = JsonResponse({'mensaje':mensaje,'error':error})
+                response.status_code = 400
+                return response
 
-			else:
-				mensaje = f'El registro no se ha podido realizar, porfavor intentelo nuevamente!'
-				#guardamos todos los errores mediante form.errors
-				error = form.errors
-				response = JsonResponse({'mensaje':mensaje,'error':error})
-				response.status_code = 400
-				return response
+        else:
+            return redirect('registrar_user')
 
-		else:
-			return redirect('registrar_user')
+User = get_user_model()
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        # return redirect('home')
+        return HttpResponseRedirect('/accounts-confirmed/login/')
+    else:
+        return HttpResponse('El enlace de activación no es válido.')
 
 class EditarUserActual(UpdateView):
 	model = Usuario
@@ -146,6 +182,24 @@ class Login(FormView):
 	def form_valid(self,form):
 		login(self.request,form.get_user())
 		return super(Login,self).form_valid(form)
+
+#clase para mostrar interfaz de login con mensaje de succeseful de confirmacion de email
+class LoginConfirmed(FormView):
+    template_name = 'perfil/login_email_confirmed.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('templates_perfil:perfil')
+
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self,request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(self.get_success_url())
+        else:
+            return super(LoginConfirmed,self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self,form):
+        login(self.request,form.get_user())
+        return super(LoginConfirmed,self).form_valid(form)
 
 def logoutUsuario(request):
 	logout(request)
