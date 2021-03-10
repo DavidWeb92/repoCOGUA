@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from django.http import HttpResponse, JsonResponse
-from django.contrib.auth import authenticate,login, logout
+from django.contrib.auth import authenticate,login, logout, get_user_model
 from django.contrib import admin
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
