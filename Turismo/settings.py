@@ -39,7 +39,7 @@ SECRET_KEY = 'e(ap(#0*o43#5cgyvuz_$+6chi+6)q4z2%#pi&6t=&b&w&i)yl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['coguamaster.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'import_export',
     'Apps.deportes',
@@ -166,20 +165,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-
-    os.path.join(BASE_DIR,'staticfiles'),
-
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 ##lineas de codigo para las imagenes
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 ##fin de las imagenes
 
-#linea pendiente
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 #lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
 EMAIL_USE_TLS = True 
