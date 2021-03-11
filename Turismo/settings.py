@@ -161,20 +161,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
-##lineas de codigo para las imagenes
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-##fin de las imagenes
-
-
-
 #lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
 EMAIL_USE_TLS = True 
 EMAIL_HOST = 'smtp.gmail.com' 
@@ -182,3 +168,22 @@ EMAIL_HOST_USER = 'gad10cogua@gmail.com'
 EMAIL_HOST_PASSWORD = get_config('EMAIL_HOST_PASSWORD') 
 EMAIL_PORT = 587
 #fin lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
+
+STATIC_ROOT = os.path.join(BASE_DIR, "live-static", "static-root")
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+#STATIC_ROOT = "/home/cfedeploy/webapps/cfehome_static_root/"
+
+MEDIA_URL = "/media/"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "live-static", "media-root")

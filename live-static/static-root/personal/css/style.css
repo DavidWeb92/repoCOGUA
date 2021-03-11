@@ -1,0 +1,545 @@
+/* mis css personalizados */
+/* inicio: css globales*/
+  /*inicio: buttons confirm sweetalert*/
+  .swal2-popup .swal2-styled:focus {
+      box-shadow: none !important;
+  }
+  /*fin: buttons confirm sweetalert*/
+  .modal-header 
+  { 
+      padding:9px 15px; 
+      background-color: #0dc4e0; 
+  } 
+  .modal-header .close{margin-top:-3px}
+  /* inicio: css para abrir imagen en forma de modal #myImg:hover {opacity: 0.7;}*/
+    #myImg {
+        cursor: pointer;
+    }
+    .modal1 {
+        display: none; 
+        position: fixed; 
+        z-index: 1; 
+        padding-top: 100px; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgb(0,0,0); 
+        background-color: rgba(0,0,0,0.9); 
+    }
+
+    .modal-content1 {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    #caption1 {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    .modal-content1, #caption1 { 
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @keyframes zoom {
+        from {transform:scale(0)} 
+        to {transform:scale(1)}
+    }
+
+    .close1 {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close1:hover,
+    .close1:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    @media only screen and (max-width: 700px){
+        .modal-content1 {
+            width: 100%;
+        }
+    }
+  /* fin: css para abrir imagen en forma de modal*/
+  /* inicio: css para modales*/
+    .responsive_text{
+      width:200px;
+      height:auto;
+      padding:20px;
+      border:1px solid blue;
+      text-overflow:ellipsis;
+      white-space:nowrap; 
+      overflow:hidden; 
+    }
+    .responsive_text:hover {
+      width: auto;
+      white-space: initial;
+      overflow:visible;
+      cursor: pointer;
+    }
+    .titulo-div-modal h6{
+      font-size: 18px;
+      margin-top: 15px;
+      color: #783b0c;
+      font-weight: 250;
+    }
+    .parrafo-div-modal{
+      font-size: 16px;
+      font-weight: 400;
+      font-weight: inherit;
+      font-weight: initial;
+      font-weight: unset;
+      margin: 5% 0 -1%;
+    }
+    .parrafo-div-modal-reserva p{
+      font-size: 16px;
+      font-weight: 400;
+      margin: 1% 0 -1%;
+    }
+    .parrafo-span-div-modal{
+      font-weight: 100;
+    }
+    .btn-close-modal{
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      right: -20px;
+      top: -20px;
+      padding: 20px;
+      background:#dc3545;
+      color: white;
+      border-radius: 50%;
+      line-height: 10px;
+    }
+    .btn-close-modal:hover{
+      background:#1EC6B6;
+      transition: all 0.6s ease;
+    }
+    .btn-close-modal i{
+      margin-top: -100px;
+      color: #fff;
+    }
+
+    .modal-content h3{
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 30px;
+      margin-top:20px;
+    }
+    .mejorar-posicion-imagen{
+      position: relative;
+      height: 500px;
+      overflow: hidden;
+      margin-top: -10px;
+      margin-left: -15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .mejorar-posicion-imagen img{
+      width: auto;
+      height: 500px;
+    }
+    .mover-modal-editar-user{
+      margin-top: 105px;
+    }
+
+  /* fin: css para modales*/
+  .centrar-imagen-usuario{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .centrar-imagen-usuario img{
+    width: 340px;
+    height: 280px;
+  }
+/*fin: css globales*/
+/* tableButton para separar buton de editar y eliminar */
+.tableButton{
+	margin: 1px;
+}
+.animar-mi-menu:active{
+	font-family:Helvetica,Futura,Arial,Verdana,sans-serif;
+	background:olive;
+}
+/* inicio: css para template js de deportes*/
+.link{
+	color: black;
+}
+.link:hover{
+	color: #192f3b;
+	font-size: 15px;
+}
+.cambiar-color-button-editar{
+	border-radius: 0px;
+	color: #fff !important;
+  background: #17a2b8;
+  border: 1px solid;
+  border-color: #17a2b8;
+  position: relative;
+}
+.cambiar-color-button-editar:before {
+  content:"";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 1s ease;
+}
+.cambiar-color-button-editar:hover:before {
+width: 100%;
+}
+.cambiar-color-button-eliminar{
+	border-radius: 0px;
+	color: #fff !important;
+  background: #dc3545;
+  border: 1px solid;
+  border-color: #dc3545;
+  position: relative;
+}
+.cambiar-color-button-eliminar:before {
+  content:"";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 1s ease;
+}
+.cambiar-color-button-eliminar:hover:before {
+width: 100%;
+}
+
+/* fin: css para template js de deportes*/
+/* inicio: css para perfil_listarDeporte.html*/
+.cambiar-titulo-deportes h1{
+	 font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 2rem;
+    font-weight: 400;
+}
+.cambiar-button-nuevo{
+	border-radius: 0px;
+}
+.cambiar-icon-nuevo{
+	margin-top: center;
+	font-size: 12px;
+	padding-left: 3px;
+
+}
+/* fin: css para perfil_listarDeporte.html*/
+
+/* inicio: css para perfil_ModalAgregarDeporte.html*/
+.form-contact label {
+  font-size: 14px;
+  color: #999999;
+  font-weight:normal;
+}
+.form-contact h1 {
+  font-size: 16px;
+  color: #827f7f;
+  font-weight: 400;
+}
+.form-contact .form-group {
+  margin-bottom: 20px;
+}
+
+.form-contact .form-control {
+  border: 1px solid #e5e6e9;
+  border-radius: 0px;
+  height: 48px;
+  padding-left: 18px;
+  font-size: 16px;
+  background: transparent;
+}
+
+.form-contact .form-control:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.form-contact .form-control::placeholder {
+  font-weight: 300;
+  color: #999999;
+}
+
+.form-contact textarea {
+  border-radius: 0px;
+  height: 100% !important;
+}
+.mi-footer-modal button{
+	border-radius: 0px;
+}
+.mi-footer-modal{
+	text-align: center;
+	margin: 0px   0px   15px   0px
+}
+.resaltar-input input:focus {
+    border: 1px solid #00bbff;
+}
+.resaltar-textarea textarea:focus {
+    border: 1px solid #00bbff;
+}
+/* fin: css para perfil_ModalAgregarDeporte.html*/
+
+/* inicio: css para perfil_ModalEditarDeporte.html*/
+.modal-footer button{
+	border-radius: 0px;
+}
+.form-editar h1{
+	font-size: 16px;
+	color: #827f7f;
+	font-weight: 400;
+}
+.form-editar .form-control {
+	  border: 1px solid #e5e6e9;
+	  border-radius: 0px;
+	  height: 48px;
+	  padding-left: 18px;
+	  font-size: 16px;
+	  background: transparent;
+	}
+
+.form-editar textarea {
+	  border-radius: 0px;
+	  height: 100% !important;
+	}
+/* fin: css para perfil_ModalEditarDeporte.html*/
+
+/* inicio: css para perfil_ModalDeporteDetalles.html*/
+.separar-imagen-deporte-modal{
+  margin-top: 5px;
+}
+  /* para centrar el titulo del modal*/
+.modal-title{
+  text-align: center; width: 100%;
+}
+.modal-header button{
+  border-radius: 0px;
+}
+/* fin: css para perfil_ModalDeporteDetalles.html*/
+
+/* inicio: css para perfil_user.html*/
+  /* inicio: imagen de perfil*/
+  .circular--portrait {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .circular--portrait img {
+    width: 60px;
+    height: 50px;
+  }
+  .circular-portrait-modal {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    top: -100px; 
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .circular-portrait-modal img {
+    width: auto;
+    height: 250px;
+  }
+  .mover-form-edit-user{
+    margin-top: 150px;
+  }
+  .perfil-user-image{
+    margin-left: 40px;
+    background-color: #fff;
+    position: relative;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .perfil-user-image:hover{
+    filter: drop-shadow(0px 0px 3px #ff0a0a) !important;
+  }
+  .perfil-user-image img{
+    width: auto;
+    height: 300px;
+  }
+  .perfil-user-titulo{
+    margin-top: 40px;
+  }
+  .perfil-user-titulo h1{
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 30px;
+  }
+  .perfi-user-datos{
+    margin-top: 20px;
+  }
+  .perfi-user-datos h5{
+    color: #6c757d;
+  }
+  /* fin: imagen de perfil*/
+  /* inicio: css para el menu del perfil de la barra lateral(sidebar)*/
+  .mi-nav-link{
+    background-color:#5b5c5fc2 !important;
+  }
+  .mi-nav-link p{
+    color:#fff !important;
+  }
+
+  /* fin: imagen de perfil*/
+  /* inicio: div imagen de reservas user*/
+  .perfil-user-div-imagenes img{
+    height: 200px;
+  }
+  .efecto-user-div:hover{
+    filter: drop-shadow(0px 0px 3px #FF4A52) !important;
+  }
+  .quitar-espacio h4{
+    margin-bottom: 0 !important;
+    color: #6e6969;
+  }
+  .quitar-espacio p{
+    color: #9e9999; 
+  }
+  .efecto-footer-user-reserva button:hover{
+    cursor: pointer;
+    background: #FF4A52;
+    transition: 0.5s;
+    font-size: 16px;
+  }
+  .efecto-footer-user-reserva button{
+    font-family: "Rubik", sans-serif;
+    color: #fff;
+    cursor: pointer;
+    background: #1EC6B6;
+    padding: 7px 18px 4px 18px;
+    border-radius: 18px;
+    white-space:nowrap; 
+    overflow:hidden;
+    text-overflow:ellipsis;
+    width:210px;
+    padding: 8px 20px;
+    border: 0px;
+  }
+  .efecto-footer-user-reserva span{
+    font-weight: 400;
+    color: #7d7a7a;
+  }
+  .efecto-footer-user-reserva p{
+    color: #000;
+    font-weight: 500;
+  }
+
+  /* fin: div imagen de reservas user*/
+/* fin: css para perfil_user.html
+display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+*/
+
+/* inicio: css table*/
+  /* inicio: css la paginacion de table*/
+    .page-item.active .page-link {
+        z-index: 3;
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+  /* fin: css la paginacion de table*/
+  /* inicio: css para el titulo*/
+    .titulo-table th{
+      font-size: 12px;
+      font-weight: 200;
+      font-weight: inherit;
+      font-weight: initial;
+      font-weight: unset;
+      line-height: 1.4;
+    }
+    .fila-table{
+      font-size: 14.8px;
+      font-weight: 200;
+      font-weight: inherit;
+      font-weight: initial;
+      font-weight: unset;
+      border-top: 0px solid #fff !important;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+  /* fin: css para el titulo*/
+/* fin: css table*/
+/* inicio: css home*/
+  /* inicio: publicacion de deportes*/
+  .home-div-imagenes{
+    height: 200px;
+  }
+  .home-div-imagenes img{
+    height: 200px;
+  }
+  .single_place:hover{
+    filter: drop-shadow(2px 2px 5px #444) !important;
+  }
+  .days button{
+    border-radius: 0px;
+    color: #fff !important;
+    background: #17a2b8;
+    border: 1px solid;
+    border-color: #17a2b8;
+    position: relative;
+  }
+  .days button:before {
+    content:"";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 0px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 1s ease;
+  }
+  .days button:hover{
+    background: #dc3545;
+    border-color: #dc3545;
+  }
+  .days button:hover:before {
+    width: 100%;
+  }
+  /* fin: publicacion de deportes*/
+/* fin: css home*/
