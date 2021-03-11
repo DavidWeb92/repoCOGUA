@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'smartfields',
     'widget_tweaks',
+    'preventconcurrentlogins',
 ]
 
 
@@ -77,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    'preventconcurrentlogins.middleware.PreventConcurrentLoginsMiddleware',
 ]
 SITE_ID = 1
 ROOT_URLCONF = 'Turismo.urls'
