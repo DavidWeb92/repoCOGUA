@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from smartfields import fields
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from cloudinary.models import CloudinaryField
 # Create your models here.
 '''class UsuarioManager(BaseUserManager):
 	def create_user(self,email,nombres,apellidos,password=None):
@@ -54,7 +55,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField('Email:', max_length = 254, unique= True)
 	nombres = models.CharField('Nombres:', max_length=200, blank = False, null = False)
 	apellidos = models.CharField('Apellidos:', max_length=200, blank = False, null = False)
-	imagen = fields.ImageField('Imagen', upload_to='imagenes/usuarios/%Y/%m/%d/', max_length=200, blank = True, null = True)
+	imagen = CloudinaryField('Imagen',folder = "Usuarios/")
 	usuario_activo = models.BooleanField(default = True)
 	is_active = models.BooleanField(default = True)
 	is_staff = models.BooleanField(default = False)

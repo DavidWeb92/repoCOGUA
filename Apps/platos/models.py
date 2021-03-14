@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from Apps.usuarios.models import Usuario
 from smartfields import fields
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Plato(models.Model):
@@ -10,7 +11,7 @@ class Plato(models.Model):
 	descripcion = models.TextField('Descripcion',blank=False, null=False)
 	cantidad = models.SmallIntegerField('Cantidad', default = 1)
 	estado = models.BooleanField('Estado',default = False)
-	imagen = fields.ImageField('Imagen', upload_to='imagenes/platos_tipicos/%Y/%m/%d/', max_length=200, blank = True, null = True)
+	imagen = CloudinaryField('Imagen',folder = "Platos Tipicos/")
 	user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,blank = True,null = True)
 	created = models.DateTimeField('Fecha de publicacion', editable=False, null=True,blank=True)
 	modified = models.DateTimeField('Fecha de modificacion', editable=False, null=True, blank=True)

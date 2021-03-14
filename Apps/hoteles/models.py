@@ -11,7 +11,7 @@ class Hotel(models.Model):
 	descripcion = models.TextField('Descripcion',blank=False, null=False)
 	cantidad = models.SmallIntegerField('Cantidad', default = 1)
 	estado = models.BooleanField('Estado',default = False)
-	imagen = CloudinaryField('Imagen')
+	imagen = CloudinaryField('Imagen',folder = "Cabañas/")
 	user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,blank = True,null = True)
 	created = models.DateTimeField('Fecha de publicacion', editable=False, null=True,blank=True)
 	modified = models.DateTimeField('Fecha de modificacion', editable=False, null=True, blank=True)

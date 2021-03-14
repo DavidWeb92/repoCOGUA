@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from Apps.usuarios.models import Usuario
 from smartfields import fields
-
+from cloudinary.models import CloudinaryField
 # Create your models here.
 class Deporte(models.Model):
 	nombre = models.CharField(max_length = 200, blank = False, null = False)
@@ -10,7 +10,7 @@ class Deporte(models.Model):
 	descripcion = models.TextField('Descripcion',blank=True, null=True)
 	#estado = models.BooleanField('No Reservado/Reservado',default = False)
 	cantidad = models.SmallIntegerField('Cantidad', default = 1)
-	imagen = fields.ImageField('Imagen', upload_to='imagenes/deportes/%Y/%m/%d/', max_length=200, blank = True, null = True)
+	imagen = CloudinaryField('Imagen',folder = "Deportes/")
 	#fecha_creacion = models.DateField('Fecha de Creación', auto_now = False, auto_now_add = True)
 	user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE,blank = True,null = True)
 	created = models.DateTimeField('Fecha de publicacion', editable=False, null=True,blank=True)
