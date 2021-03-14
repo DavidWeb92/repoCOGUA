@@ -88,6 +88,7 @@ class EditarUsuario(PermisosUsuariosMixin,LoginAndSuperStaffMixin, UpdateView):
 		if request.is_ajax():
 			form = self.form_class(data=request.POST,files=request.FILES,instance = self.get_object())
 			if form.is_valid():
+				cloudinary.uploader.destroy(self.get_object().imagen.public_id,invalidate=True)
 				form.save()
 				mensaje = f'{self.model.__name__} actualizado correctamente!'
 				error = 'No hay error!'
