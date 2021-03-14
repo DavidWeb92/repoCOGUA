@@ -8,7 +8,7 @@ from .forms import HotelForm
 from Apps.usuarios.mixins import LoginAndSuperStaffMixin
 from Apps.usuarios.models import Usuario
 from Apps.reservas.models import ReservaHotel, ReservaDeporte, ReservaPlato, ReservaTurismo
-
+import cloudinary
 # Create your views here.
 class AgregarHotel(LoginAndSuperStaffMixin,CreateView):
 	model = Hotel
@@ -104,6 +104,7 @@ class EliminarHotel(LoginAndSuperStaffMixin,DeleteView):
 
 	def delete(self, request, *args, **kwargs):
 		if request.is_ajax():
+			cloudinary.uploader.destroy(self.get_object().imagen.public_id,invalidate=True)
 			deporte = self.get_object()
 			deporte.delete()
 			mensaje = f'{self.model.__name__} eliminado correctamente!'

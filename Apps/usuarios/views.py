@@ -17,7 +17,7 @@ from Apps.usuarios.models import Usuario
 from .forms import LoginForm, RegistrarUsuarioForm, EditarUsuarioForm, EditarPasswordUsuarioForm
 from Apps.usuarios.mixins import LoginAndSuperStaffMixin, PermisosUsuariosMixin
 from Apps.reservas.models import ReservaHotel, ReservaDeporte, ReservaPlato, ReservaTurismo
-
+import cloudinary
 # Create your views here.
 '''class RegistrarUsuario(CreateView):
 	model = Usuario
@@ -141,6 +141,7 @@ class EliminarUsuario(PermisosUsuariosMixin,LoginAndSuperStaffMixin, DeleteView)
 
 	def delete(self, request, *args, **kwargs):
 		if request.is_ajax():
+			cloudinary.uploader.destroy(self.get_object().imagen.public_id,invalidate=True)
 			usuario = self.get_object()
 			if usuario.is_superuser == True:
 				mensaje = f'El {self.model.__name__} es un Super User. Si desea eliminar este usuario, debe realizar esta acción desde el panel de Administración de Cogua'
