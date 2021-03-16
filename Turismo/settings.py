@@ -193,7 +193,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "live-static", "media-root")
 
 #para servir archivos media con claudinary
 cloudinary.config(
-    cloud_name = os.environ.get('CLOUD_NAME'),
-    api_key = os.environ.get('API_KEY'),
-    api_secret = os.environ.get('API_SECRET'),
+    cloud_name = "CLOUD_NAME",
+    api_key = "API_KEY",
+    api_secret = "API_SECRET"
 )
