@@ -16,21 +16,6 @@ import cloudinary
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#lineas de codigo para llamar a las variables de entorno, es decir a las pssss.
-import json
-from django.core.exceptions import ImproperlyConfigured
-
-with open(os.path.join(BASE_DIR, 'static/personal/config/config.json')) as config_file:
-    config = json.load(config_file)
-
-def get_config(setting, config = config ):
-    """Obtenemos la configuracion o falla capturando con ImproperlyConfigured"""
-    try:
-        return config[setting]
-    except KeyError:
-        raise ImproperlyConfigured("El atributo {} no es correcto".format(setting))
-#fin lineas de codigo para llamar a las variables de entorno, es decir a las pssss.
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -167,8 +152,8 @@ USE_TZ = True
 #lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
 EMAIL_USE_TLS = True 
 EMAIL_HOST = 'smtp.gmail.com' 
-EMAIL_HOST_USER = 'gad10cogua@gmail.com' 
-EMAIL_HOST_PASSWORD = get_config('EMAIL_HOST_PASSWORD') 
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER') 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') 
 EMAIL_PORT = 587
 #fin lineas de configuracion para envio de correo electrino de confirmacion al crear nuevos usuarios
 
