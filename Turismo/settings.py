@@ -120,7 +120,7 @@ from decouple import config
     }
 }
 """
-#esta es la manera de conectarse a la base de datos utilizando dj_database_url cuando ya esta en produccion
+#esta es la manera de conectarse a la base de datos utilizando dj_database_url cuando ya esta en produccion utilizando heroku
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
@@ -197,4 +197,3 @@ cloudinary.config(
     api_key = "332441852499921",
     api_secret = "eUWonOycYdDu1DfgETLCkaFKIHs"
 )
-#probando repositorio de prueba
